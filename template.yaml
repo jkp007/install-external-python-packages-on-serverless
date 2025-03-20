@@ -1,0 +1,24 @@
+Resources:
+  # ...existing resources...
+  AthenaReportFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./src/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action:
+                - athena:ListQueryExecutions
+                - athena:BatchGetQueryExecution
+              Resource: "*"
+        - Statement:
+            - Effect: Allow
+              Action: s3:PutObject
+              Resource: "*"
+      Environment:
+        Variables:
+          S3_BUCKET: athena-report-data
+  # ...existing resources...
